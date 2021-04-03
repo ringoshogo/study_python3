@@ -6,6 +6,11 @@ import platform
 import os
 import pathlib
 
+# exe化後にカレントディレクトリを取得する
+from os import chdir
+from os.path import dirname
+from sys import executable
+
 # tkアプリウィンドウを開かないように制御
 root = tk.Tk()
 root.withdraw()
@@ -32,17 +37,6 @@ def select_save_file():
     if system == "Windows":
         root.withdraw()
 
-    # カレントディレクトリ
-    cwd = os.getcwd()
-
-    # 相対パスに変換
-    relative_path = ""
-    try:
-        path = pathlib.Path(file_path)
-        relative_path = str(path.relative_to(cwd))
-    except:
-        pass
-
-    return relative_path
+    return file_path
 
 

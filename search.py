@@ -5,7 +5,7 @@ import eel
 def kimetsu_search(word, file_path):
 
     # 検索対象取得
-    df=pd.read_csv("./source.csv")
+    df=pd.read_csv(file_path)
     source=list(df["name"])
 
     # 検索
