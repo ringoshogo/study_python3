@@ -1,18 +1,65 @@
+<!doctype html>
 <html>
     <head>
-        <title>eelテスト</title>
-        <link rel="stylesheet" href="./style.css">
+        <title>検索</title>
+    <!-- BootstrapのCSS読み込み -->
+    <link href="static/css/bootstrap.css" rel="stylesheet"><link rel="stylesheet" href="./style.css">
+    <!-- BootstrapのJS読み込み -->
+    <script src="static/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <h2>eelテスト</h2>
+        <div class="text-center">
+            <h2 class="jumbotron-heading">検索</h2>
+            <div class="container">
+                <div class="form-group row">
+                <!-- 課題6 HTML画面から保存先を選択 -->
+                    <label  class="col-sm-3 col-form-label">CSV保存先</label >
+                    <div class="col-sm-7">
+                        <input id="source_file" class="form-control" type="text" placeholder="保存先ファイル">
+                    </div>
+                    <input id="source_select" class="col-sm-1 btn btn-primary" type="submit" value="...">
+                </div>
+                <div class="form-group row">
+                <!-- 課題1 検索ワード入力と検索ボタンの追加 -->
+                    <label  class="col-sm-3 col-form-label">検索ワード</label >
+                    <div class="col-sm-7">
+                        <input id="input_text" class="form-control" type="text" placeholder="検索文字">
+                    </div>
+                    <input id="search" class="col-sm-2 btn btn-primary" type="submit" value="検索">
+                </div>
+            </div>
+            <div class="container">
+            <!-- 課題3 ログ表示領域の作成 -->
+                <textarea class="form-control" rows="20" id="log_area"></textarea>
+            </div>
+        
+        </div>
+
         <script type="text/javascript" src="./eel.js"></script>
         <script>
+            // 入力した文字列を検索する
+            const search = document.getElementById("search");
             search.addEventListener('click', () => {
+                const input_text = document.getElementById("input_text").value;
+                const source_file = document.getElementById("source_file").value;
+                // 課題2 検索ワード入力が空の場合アラートを表示
+                if (!input_text) window.alert("検索文字を入力してください。")
+                if (!source_file) window.alert("保存先を入力してください。")
 
+                eel.kimetsu_search(input_text, source_file)
+            });
+
+            // 保存先を選択する
+            const save_file = document.getElementById("source_select")
+            save_file.addEventListener('click', async() => {
+                const file = await eel.select_save_file()();
+                document.getElementById("source_file").value = file
             })
 
             eel.expose(view_log_js)
             function view_log_js(text){
+                // 課題4 ログにkimetsu_searchの結果を表示
+                document.getElementById("log_area").value += text + "\n";
             }
         </script>
     </body>
